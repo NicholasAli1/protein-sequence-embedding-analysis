@@ -444,39 +444,6 @@ print(f"Consider stabilizing residues: {disorder_regions}")
 
 ---
 
-## 🐛 Troubleshooting
-
-### ESM-2 Installation Issues
-
-```bash
-# If fair-esm fails, try:
-pip install git+https://github.com/facebookresearch/esm.git
-```
-
-### Memory Issues
-
-```python
-# Use smaller ESM-2 model
-embedder = ESM2Embedder(model_name='esm2_t30_150M_UR50D')  # Only 150M params
-
-# Or process in batches
-for batch in chunks(sequences, 10):
-    embeddings = embedder.embed_sequences(batch)
-```
-
-### AlphaFold API Rate Limits
-
-```python
-import time
-
-# Add delays between requests
-for seq_id in uniprot_ids:
-    data = fetch_alphafold(seq_id)
-    time.sleep(1)  # Respect rate limits
-```
-
----
-
 ## 📚 References
 
 1. **ESM-2**: Lin et al. (2023). "Evolutionary-scale prediction of atomic-level protein structure with a language model." *Science*.
@@ -486,18 +453,6 @@ for seq_id in uniprot_ids:
 3. **Integrated Gradients**: Sundararajan et al. (2017). "Axiomatic attribution for deep networks." *ICML*.
 
 4. **AlphaFold**: Jumper et al. (2021). "Highly accurate protein structure prediction with AlphaFold." *Nature*.
-
----
-
-## 🤝 Contributing
-
-Have ideas for more advanced features? Consider adding:
-
-- **Protein-protein interaction prediction**
-- **Epitope mapping for antibodies**
-- **Thermostability prediction**
-- **Multi-task learning across metrics**
-- **Active learning for optimal sequence sampling**
 
 ---
 
