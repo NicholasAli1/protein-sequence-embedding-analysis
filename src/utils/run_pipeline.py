@@ -38,42 +38,48 @@ def main():
     print("#"*70)
     
     # Check if example data exists
-    if not os.path.exists('../example_sequences.csv'):
+    if not os.path.exists('../../datasets/example_sequences.csv'):
         print("\n❌ Error: example_sequences.csv not found!")
-        print("Please ensure the data file exists in the parent directory.")
+        print("Please ensure the data file exists in the root directory.")
         sys.exit(1)
     
     # Step 1: Generate Embeddings
-    print_section("STEP 1/3: Generating Embeddings")
-    print("This will generate UniRep and ProtBERT embeddings from sequences...")
+    print("\n" + "="*70)
+    print("  STEP 1/3: Generating Embeddings")
+    print("="*70)
+    print("\nThis will generate UniRep and ProtBERT embeddings from sequences...")
     print("⏳ Note: First run downloads models (~1.6 GB for ProtBERT)")
     
-    if not run_command("python3 generate_embeddings.py"):
+    if not run_command("python3 core/generate_embeddings.py"):
         print("\n❌ Embedding generation failed. Exiting.")
         sys.exit(1)
     
     print("\n✅ Embeddings generated successfully!")
     
     # Check if embeddings were created
-    if not os.path.exists('../data/embeddings.npz'):
+    if not os.path.exists('../../data/embeddings.npz'):
         print("\n❌ Error: Embeddings file not found!")
         sys.exit(1)
     
     # Step 2: Train Regression Models
-    print_section("STEP 2/3: Training Regression Models")
-    print("Building Random Forest models to predict developability metrics...")
+    print("\n" + "="*70)
+    print("  STEP 2/3: Training Regression Models")
+    print("="*70)
+    print("\nBuilding Random Forest models to predict developability metrics...")
     
-    if not run_command("python3 regression_model.py"):
-        print("\n❌ Regression modeling failed. Exiting.")
+    if not run_command("python3 core/regression_model.py"):
+        print("\n❌ Model training failed. Exiting.")
         sys.exit(1)
     
     print("\n✅ Regression models trained successfully!")
     
     # Step 3: Generate Visualizations
-    print_section("STEP 3/3: Creating Visualizations")
-    print("Generating PCA, t-SNE, and UMAP visualizations...")
+    print("\n" + "="*70)
+    print("  STEP 3/3: Creating Visualizations")
+    print("="*70)
+    print("\nGenerating PCA, t-SNE, and UMAP visualizations...")
     
-    if not run_command("python3 visualize_embeddings.py"):
+    if not run_command("python3 core/visualize_embeddings.py"):
         print("\n❌ Visualization failed. Exiting.")
         sys.exit(1)
     

@@ -297,7 +297,8 @@ def create_paired_dataset_example():
     }
     
     df = pd.DataFrame(data)
-    df.to_csv('../data/paired_chains.csv', index=False)
+    os.makedirs('../../data', exist_ok=True)
+    df.to_csv('../../data/paired_chains.csv', index=False)
     print("✅ Created paired_chains.csv")
     
     return df
@@ -312,10 +313,10 @@ def main():
     print("\n🧬 Analyzing antibody chains in combination\n")
     
     # Create or load paired dataset
-    if not os.path.exists('../data/paired_chains.csv'):
+    if not os.path.exists('../../data/paired_chains.csv'):
         df = create_paired_dataset_example()
     else:
-        df = pd.read_csv('../data/paired_chains.csv')
+        df = pd.read_csv('../../data/paired_chains.csv')
     
     print(f"Loaded {len(df)} paired antibody sequences\n")
     
@@ -329,7 +330,7 @@ def main():
     
     print(f"Analyzing {ab_id}...")
     analyzer.visualize_chain_interaction(heavy, light, 
-                                        output_dir=f'../plots/paired_chains/{ab_id}')
+                                        output_dir=f'../../plots/paired_chains/{ab_id}')
     
     # Analyze contributions
     contributions = analyzer.analyze_chain_contributions(heavy, light)
@@ -346,7 +347,7 @@ def main():
         compatibility,
         df['antibody_id'].tolist(),
         df['antibody_id'].tolist(),
-        output_dir='../plots/paired_chains'
+        output_dir='../../plots/paired_chains'
     )
     
     print("\n" + "="*70)

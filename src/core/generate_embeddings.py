@@ -176,7 +176,10 @@ def main():
     
     # Load sequence data
     print("Loading sequence data...")
-    df = pd.read_csv('../example_sequences.csv')
+    # Get absolute path relative to this script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(script_dir, '..', '..', 'datasets', 'example_sequences.csv')
+    df = pd.read_csv(data_path)
     sequences = df['sequence'].tolist()
     sequence_ids = df['sequence_id'].tolist()
     
@@ -197,10 +200,12 @@ def main():
     embeddings_data = embedder.embed_sequences(sequences, sequence_ids)
     
     # Create output directory if it doesn't exist
-    os.makedirs('../data', exist_ok=True)
+    output_dir = os.path.join(script_dir, '..', '..', 'data')
+    os.makedirs(output_dir, exist_ok=True)
     
     # Save embeddings
-    embedder.save_embeddings(embeddings_data, '../data/embeddings')
+    output_path = os.path.join(output_dir, 'embeddings')
+    embedder.save_embeddings(embeddings_data, output_path)
     
     print("\n=== Embedding Generation Complete ===")
     print(f"Total sequences processed: {len(sequences)}")

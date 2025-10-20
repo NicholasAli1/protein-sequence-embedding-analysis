@@ -315,11 +315,11 @@ def main():
     print("\n📊 Explaining model predictions with gradient-based attribution\n")
     
     # Load data
-    df = pd.read_csv('../example_sequences.csv')
+    df = pd.read_csv('../../datasets/example_sequences.csv')
     
     # Check if models exist
-    model_path = '../models/protbert/stability_score_protbert_model.pkl'
-    scaler_path = '../models/protbert/stability_score_protbert_scaler.pkl'
+    model_path = '../../models/protbert/stability_score_protbert_model.pkl'
+    scaler_path = '../../models/protbert/stability_score_protbert_scaler.pkl'
     
     if not os.path.exists(model_path):
         print("❌ Trained models not found!")
@@ -338,7 +338,7 @@ def main():
         importance_groups = interpreter.plot_sequence_importance(
             sequence,
             metric_name='stability',
-            output_dir=f'../plots/interpretation'
+            output_dir=f'../../plots/interpretation'
         )
     
     # Compare all sequences
@@ -347,7 +347,7 @@ def main():
         df['sequence'].tolist()[:10],
         df['sequence_id'].tolist()[:10],
         metric_name='stability',
-        output_dir='../plots/interpretation'
+        output_dir='../../plots/interpretation'
     )
     
     print("\n" + "="*70)

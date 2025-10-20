@@ -307,7 +307,7 @@ def main():
     import pandas as pd
     
     # Load sequences
-    df = pd.read_csv('../example_sequences.csv')
+    df = pd.read_csv('../../datasets/example_sequences.csv')
     
     # Analyze first few sequences
     for idx in range(min(3, len(df))):
@@ -317,7 +317,7 @@ def main():
         analyze_sequence_attention(
             sequence,
             sequence_id,
-            output_dir=f'../plots/attention/{sequence_id}'
+            output_dir=f'../../plots/attention/{sequence_id}'
         )
 
 

@@ -338,7 +338,7 @@ def main():
     print("\n🧬 Linking sequence embeddings to 3D structure predictions\n")
     
     # Load data
-    df = pd.read_csv('../example_sequences.csv')
+    df = pd.read_csv('../../datasets/example_sequences.csv')
     
     # For demo, use simple embeddings (in production, use real embeddings)
     embeddings = []
@@ -356,7 +356,7 @@ def main():
         embeddings,
         df['sequence'].tolist(),
         df['stability_score'].tolist(),
-        output_dir='../plots/alphafold'
+        output_dir='../../plots/alphafold'
     )
     
     # Analyze individual sequence
@@ -364,7 +364,7 @@ def main():
     integrator.visualize_residue_confidence(
         df.iloc[0]['sequence'],
         embeddings[0],
-        output_dir='../plots/alphafold'
+        output_dir='../../plots/alphafold'
     )
     
     # Generate report
@@ -372,7 +372,7 @@ def main():
         df.iloc[0]['sequence'],
         embeddings[0],
         df.iloc[0]['stability_score'],
-        output_dir='../plots/alphafold'
+        output_dir='../../plots/alphafold'
     )
     
     print("\n" + "="*70)

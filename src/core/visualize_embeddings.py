@@ -100,11 +100,17 @@ class EmbeddingVisualizer:
         X_scaled = scaler.fit_transform(X)
         
         # For large feature spaces, first reduce with PCA
+        # Use min(50, n_samples-1) to avoid errors with small datasets
         if X.shape[1] > 50:
-            pca = PCA(n_components=50)
+            n_components_pca = min(50, X.shape[0] - 1)
+            pca = PCA(n_components=n_components_pca)
             X_scaled = pca.fit_transform(X_scaled)
-            print(f"Pre-reduced to 50 dims with PCA (explains "
+            print(f"Pre-reduced to {n_components_pca} dims with PCA (explains "
                   f"{pca.explained_variance_ratio_.sum()*100:.2f}% variance)")
+        
+        # Adjust perplexity for small datasets
+        # t-SNE requires perplexity < n_samples
+        perplexity = min(perplexity, max(5, X.shape[0] - 1))
         
         tsne = TSNE(n_components=n_components, perplexity=perplexity, 
                     random_state=42, n_iter=1000)
@@ -129,8 +135,12 @@ class EmbeddingVisualizer:
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
         
+        # Adjust n_neighbors for small datasets
+        # UMAP requires n_neighbors < n_samples
+        n_neighbors = min(n_neighbors, X.shape[0] - 1)
+        
         reducer = umap.UMAP(n_components=n_components, n_neighbors=n_neighbors,
-                           random_state=42)
+                           random_state=42, min_dist=0.1)
         X_reduced = reducer.fit_transform(X_scaled)
         
         print("UMAP reduction complete")
@@ -402,14 +412,14 @@ def main():
     """Main function to generate visualizations."""
     
     # Paths
-    embeddings_path = '../data/embeddings.npz'
-    sequences_csv = '../example_sequences.csv'
+    embeddings_path = '../../data/embeddings.npz'
+    sequences_csv = '../../datasets/example_sequences.csv'
     
     # Create visualizer
     visualizer = EmbeddingVisualizer(embeddings_path, sequences_csv)
     
     # Generate comprehensive dashboard
-    visualizer.create_comprehensive_dashboard(output_dir='../plots/visualizations')
+    visualizer.create_comprehensive_dashboard(output_dir='../../plots/visualizations')
     
     print("\n" + "="*70)
     print("KEY INSIGHTS")

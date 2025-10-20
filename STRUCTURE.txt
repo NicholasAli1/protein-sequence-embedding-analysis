@@ -1,0 +1,25 @@
+# Project Organization Summary
+
+## Organized Structure (NEW):
+
+src/
+├── core/           # Main pipeline (embeddings, models, visualization)
+├── advanced/       # Advanced features (attention, interpretation, etc.)
+└── utils/          # Utilities (converter, downloaders, runners)
+
+## All datasets in one place:
+
+datasets/           # All input datasets stored here
+└── *.csv, *.xlsx
+
+## To run:
+
+cd src
+python3 utils/run_pipeline.py          # Main pipeline
+python3 utils/run_advanced_features.py # Advanced features
+python3 utils/convert_dataset.py       # Convert datasets
+
+## Everything documented in:
+
+README.md           # Comprehensive guide (EVERYTHING)
+RESULTS.md          # Detailed analysis results

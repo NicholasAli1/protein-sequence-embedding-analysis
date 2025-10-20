@@ -145,6 +145,26 @@ class DevelopabilityPredictor:
         """
         results = {}
         
+        # Auto-adjust for small datasets
+        n_samples = X.shape[0]
+        original_model_type = model_type
+        
+        if n_samples < 50:
+            print("\n" + "⚠️ "*30)
+            print(f"WARNING: Small dataset detected ({n_samples} sequences)")
+            print(f"Minimum recommended: 50 sequences")
+            print(f"Optimal: 100-500 sequences")
+            print(f"\nWith {n_samples} sequences:")
+            print(f"  → Switching from {model_type} to 'ridge' (simpler model)")
+            print(f"  → Using cross-validation for better estimates")
+            print(f"  → Predictions may be unreliable - use for exploration only")
+            print("⚠️ "*30 + "\n")
+            model_type = 'ridge'
+            
+            if n_samples < 30:
+                print("💡 TIP: Focus on clustering & visualization rather than prediction")
+                print("   PCA, t-SNE, and UMAP are more reliable with small datasets\n")
+        
         for metric in self.metrics:
             print(f"\n{'='*60}")
             print(f"Training model for: {metric}")
@@ -410,8 +430,8 @@ def main():
     """Main function to train and evaluate regression models."""
     
     # Paths
-    embeddings_path = '../data/embeddings.npz'
-    sequences_csv = '../example_sequences.csv'
+    embeddings_path = '../../data/embeddings.npz'
+    sequences_csv = '../../datasets/example_sequences.csv'
     
     # Compare all embedding types
     compare_embedding_types(embeddings_path, sequences_csv, model_type='random_forest')

@@ -172,7 +172,7 @@ def main():
     
     # Load sequence data
     print("Loading sequence data...")
-    df = pd.read_csv('../example_sequences.csv')
+    df = pd.read_csv('../../datasets/example_sequences.csv')
     sequences = df['sequence'].tolist()
     sequence_ids = df['sequence_id'].tolist()
     
@@ -185,10 +185,10 @@ def main():
     embeddings_data = embedder.embed_sequences(sequences, sequence_ids)
     
     # Create output directory
-    os.makedirs('../data', exist_ok=True)
+    os.makedirs('../../data', exist_ok=True)
     
     # Save embeddings
-    embedder.save_embeddings(embeddings_data, '../data/embeddings_esm2')
+    embedder.save_embeddings(embeddings_data, '../../data/embeddings_esm2')
     
     print("\n" + "="*70)
     print("✅ ESM-2 EMBEDDING GENERATION COMPLETE!")
