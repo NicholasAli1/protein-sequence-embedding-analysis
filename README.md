@@ -28,7 +28,7 @@ This project applies advanced deep learning-based protein embedding models (UniR
 
 **NEW!** All advanced features are now implemented! See [ADVANCED_FEATURES.md](ADVANCED_FEATURES.md) for details.
 
-- [x] **ESM-2 embeddings** - State-of-the-art protein language model (Meta AI) 🍎 **Mac-compatible with MPS!**
+- [x] **ESM-2 embeddings** - State-of-the-art protein language model (Meta AI) **Mac-compatible with MPS!**
 - [x] **Attention visualization** - See which residues the model focuses on
 - [x] **Sequence-to-function interpretation** - Gradient-based attribution
 - [x] **Paired heavy/light chain analysis** - Antibody-specific analysis
@@ -532,6 +532,7 @@ sequence = sequence[:512]  # Truncate to 512 residues
 **Problem**: Embedding generation takes too long
 
 **Solutions**:
+
 ```bash
 # Check device availability
 python3 -c "import torch; print(f'CUDA: {torch.cuda.is_available()}, MPS: {torch.backends.mps.is_available()}')"
@@ -548,6 +549,7 @@ python3 esm2_embeddings.py  # Use esm2_t12_35M_UR50D (fastest)
 **Problem**: ESM-2 not using GPU acceleration
 
 **Solution**:
+
 ```python
 # Verify MPS is available
 import torch
@@ -561,6 +563,7 @@ print(f"MPS built: {torch.backends.mps.is_built()}")
 **Problem**: Memory pressure on MacBook
 
 **Solution**:
+
 - Use `esm2_t12_35M_UR50D` (smallest model, only 2GB)
 - Close other applications
 - Process fewer sequences at once
@@ -590,13 +593,13 @@ print(f"MPS built: {torch.backends.mps.is_built()}")
 
 ### Model Selection
 
-| Use Case | Recommended Model | Why |
-|----------|------------------|-----|
-| Best accuracy | ESM-2 (650M) | State-of-the-art, highest R² |
-| Mac/Apple Silicon | ESM-2 (650M) 🍎 | Native MPS acceleration |
-| Fast inference | ProtBERT | Good balance of speed & quality |
-| Memory constrained | ESM-2 (35M) | Smallest, fastest, good quality |
-| Large datasets (>1000) | ESM-2 (3B) | Best for big data |
+| Use Case               | Recommended Model | Why                             |
+| ---------------------- | ----------------- | ------------------------------- |
+| Best accuracy          | ESM-2 (650M)      | State-of-the-art, highest R²    |
+| Mac/Apple Silicon      | ESM-2 (650M) 🍎   | Native MPS acceleration         |
+| Fast inference         | ProtBERT          | Good balance of speed & quality |
+| Memory constrained     | ESM-2 (35M)       | Smallest, fastest, good quality |
+| Large datasets (>1000) | ESM-2 (3B)        | Best for big data               |
 
 ### Interpretation Tips
 
@@ -626,14 +629,14 @@ print(f"MPS built: {torch.backends.mps.is_built()}")
 
 ### Computational Requirements
 
-| Task | Sequences | CPU | Mac (MPS) 🍎 | Linux (CUDA) | Memory |
-|------|-----------|-----|-------------|--------------|---------|
-| ProtBERT embedding | 20 | 5 min | N/A | 30 sec | 4 GB |
-| ESM-2 (650M) embedding | 20 | 10 min | 1-2 min | 1 min | 8 GB |
-| ESM-2 (35M) embedding | 20 | 3 min | 20 sec | 15 sec | 2 GB |
-| Model training | 100 | 2 min | 1 min | 1 min | 2 GB |
-| Visualization | 100 | 3 min | - | - | 4 GB |
-| Attention analysis | 1 | 30 sec | 10 sec | 5 sec | 2 GB |
+| Task                   | Sequences | CPU    | Mac (MPS) 🍎 | Linux (CUDA) | Memory |
+| ---------------------- | --------- | ------ | ------------ | ------------ | ------ |
+| ProtBERT embedding     | 20        | 5 min  | N/A          | 30 sec       | 4 GB   |
+| ESM-2 (650M) embedding | 20        | 10 min | 1-2 min      | 1 min        | 8 GB   |
+| ESM-2 (35M) embedding  | 20        | 3 min  | 20 sec       | 15 sec       | 2 GB   |
+| Model training         | 100       | 2 min  | 1 min        | 1 min        | 2 GB   |
+| Visualization          | 100       | 3 min  | -            | -            | 4 GB   |
+| Attention analysis     | 1         | 30 sec | 10 sec       | 5 sec        | 2 GB   |
 
 ### Model Accuracy (20 Sequence Dataset)
 
@@ -725,78 +728,6 @@ identify_clusters(X_reduced, n_clusters=3)  # Adjust cluster count
 4. **Design guidance**: Embeddings can guide protein engineering by identifying favorable sequence regions
 
 5. **Transfer learning**: Pre-trained models generalize well to antibody-specific tasks
-
----
-
-## ❓ Frequently Asked Questions (FAQ)
-
-### General
-
-**Q: Which embedding model should I use?**
-
-A: For best accuracy, use **ESM-2 (650M)**. For fastest results, use **ProtBERT**. See [Model Selection](#model-selection) table for details.
-
-**Q: How many sequences do I need?**
-
-A: Minimum 50, recommended 100-500. More data = better models. With <50 sequences, predictions may be unreliable.
-
-**Q: Can I use this for non-antibody proteins?**
-
-A: Yes! The embeddings are trained on general proteins. Just ensure your labels (solubility, stability, etc.) are appropriate for your protein type.
-
-**Q: Do I need a GPU?**
-
-A: No, but highly recommended. **Mac users with Apple Silicon (M1/M2/M3)** automatically get 10-20x speedup using MPS. **Linux users** get 50x speedup with CUDA. Models can still train on CPU.
-
-**Q: Does this work on MacBook?**
-
-A: Yes! 🍎 **ESM-2 is fully optimized for Apple Silicon**. It automatically detects and uses MPS (Metal Performance Shaders) for GPU acceleration. Use `esm2_t12_35M_UR50D` for fastest results on MacBooks with limited memory, or `esm2_t33_650M_UR50D` for best accuracy.
-
-### Technical
-
-**Q: Why is UniRep skipped?**
-
-A: JAX version conflicts cause compatibility issues. The pipeline automatically uses ProtBERT/ESM-2 instead, which perform better anyway.
-
-**Q: Can I use my own pre-trained embeddings?**
-
-A: Yes! Load your embeddings as numpy arrays and pass them to the regression_model.py module. See [Customization](#customization).
-
-**Q: How do I handle sequences of different lengths?**
-
-A: Protein language models handle variable lengths automatically through padding/truncation. Max length is typically 512-1024 residues.
-
-**Q: Can I predict properties for sequences without training data?**
-
-A: Not directly - you need labeled training data. But you can use embeddings for clustering/similarity without labels.
-
-### Interpretation
-
-**Q: What does R² = 0.75 mean?**
-
-A: The model explains 75% of the variance in your data. Generally: >0.80 excellent, 0.60-0.80 good, 0.40-0.60 moderate, <0.40 poor.
-
-**Q: How reliable are the predictions?**
-
-A: Depends on R² score and dataset size. Always validate top candidates experimentally. Use predictions for screening, not as absolute truth.
-
-**Q: Why do different embedding types give different results?**
-
-A: Each model learns different representations. ESM-2 generally performs best, but sometimes ProtBERT or combined embeddings work better for specific metrics.
-
-### Advanced
-
-**Q: Can I combine this with experimental data?**
-
-A: Yes! Use embeddings as features alongside experimental descriptors (MW, pI, charge, etc.) in your regression models.
-
-**Q: How do I handle paired antibody chains?**
-
-A: Use `paired_chain_analysis.py` - it combines heavy and light chain embeddings and predicts pairing compatibility.
-
-**Q: Can I use AlphaFold structures directly?**
-
-A: Yes! The `alphafold_integration.py` module can load real AlphaFold predictions. Currently shows simulated data for demo purposes.
 
 ---
 
@@ -901,10 +832,10 @@ python3 alphafold_integration.py
 
 ### Model Quick Comparison
 
-| Model      | Best For     | Speed   | Accuracy   | Mac |
-| ---------- | ------------ | ------- | ---------- |-----|
+| Model      | Best For     | Speed   | Accuracy   | Mac    |
+| ---------- | ------------ | ------- | ---------- | ------ |
 | ESM-2 650M | Best results | Medium  | ⭐⭐⭐⭐⭐ | ✅ MPS |
-| ESM-2 35M | MacBook | Fastest | ⭐⭐⭐⭐ | ✅ MPS |
+| ESM-2 35M  | MacBook      | Fastest | ⭐⭐⭐⭐   | ✅ MPS |
 | ProtBERT   | Balance      | Fast    | ⭐⭐⭐⭐   | ✅ CPU |
 
 ### Typical R² Ranges
