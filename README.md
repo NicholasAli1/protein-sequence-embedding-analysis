@@ -1,6 +1,6 @@
 # Sequence Embedding Analysis using UniRep and ProtBERT for Developability Metrics
 
-**A comprehensive machine learning pipeline for predicting antibody developability attributes from protein sequences using state-of-the-art embedding models.**
+**A comprehensive machine learning pipeline for predicting antibody developability attributes from protein sequences using state of the art embedding models.**
 
 ---
 
