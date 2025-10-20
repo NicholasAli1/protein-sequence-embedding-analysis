@@ -1,0 +1,30 @@
+# Core ML and Data Science
+numpy==1.24.3
+pandas==2.0.3
+scikit-learn==1.3.0
+scipy==1.11.1
+
+# Deep Learning Frameworks
+torch==2.0.1
+transformers==4.30.2
+
+# Protein Embedding Models
+jax-unirep==2.0.0
+tape-proteins==0.5
+fair-esm>=2.0.0  # ESM-2 embeddings
+
+# Visualization
+matplotlib==3.7.2
+seaborn==0.12.2
+plotly==5.15.0
+
+# Dimensionality Reduction
+umap-learn==0.5.3
+
+# Utilities
+tqdm==4.65.0
+joblib==1.3.1
+biopython==1.81
+
+# Structure Analysis
+requests>=2.28.0  # For AlphaFold API
